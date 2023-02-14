@@ -1,0 +1,79 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+
+  </ion-toolbar>
+</ion-header>
+
+<div class="elips-1"></div>
+<div class="elips-2"></div>
+
+<header class="sub-header bg-main ion-padding" style="padding-top: 0 !important;">
+  <h1 class="" style="margin-top: 0;">تسجيل الدخول </h1>
+</header>
+
+<ion-content class="ion-padding">
+  <ion-text>
+    <h4>اهلا وسهلا بك مجدداً</h4>
+  </ion-text>
+
+  <form (ngSubmit)="login()">
+    <ion-list class="ion-no-border">
+      <div class="position-relative" style="margin-bottom: 15px;">
+        <ion-label for="tel">رقم الجوال</ion-label>
+        <input id="tel" type="tel" name="mobile" placeholder="ادخل رقم الجوال" class="form-control tel-input" (keypress)="numberOnly($event)" [(ngModel)]="user.mobile" />
+        <div class="position-absolute select">
+          <a href="javascript: void(0);" id="open-custom-dialog" class="ion-no-margin" fill="clear" color="dark" style="height: auto; text-decoration: none;">{{ selectedNumber }}</a>
+        </div>
+      </div>
+
+      <div class="position-relative" style="margin-bottom: 33px;">
+        <ion-label for="password">كلمة المرور</ion-label>
+        <input id="password" [type]="showPassword ? 'text' : 'password'" name="password" placeholder="ادخل كلمة المرور" class="form-control" [(ngModel)]="user.password" />
+
+        <a class="type-toggle" (click)="toggleShow()">
+          <ion-icon class="show-option" [hidden]="!showPassword" name="eye-off-outline"></ion-icon>
+          <ion-icon class="hide-option" [hidden]="showPassword" name="eye-outline"></ion-icon>
+       </a>
+      </div>
+
+      <ion-button color="primary" expand="block" style="--border-radius: 4px;" type="submit" class="height-btn ion-no-border">تسجيل دخول </ion-button>
+
+      <ion-text class="no-account ion-text-center">
+        <p>هل لا يوجد لديك حساب ؟ <a href="javascript: void(0);" [routerLink]="'../register'">انشاء حساب</a> </p>
+      </ion-text>
+
+    </ion-list>
+  </form>
+
+
+</ion-content>
+
+<ion-footer class="ion-no-border" style="background: #FFF; margin-top: -1px; padding: 15px 0 30px 0" (click)="loginAsVisitor()">
+  <ion-text class="ion-text-center" style="display: block; color: #000000;">الدخول كزائر</ion-text>
+</ion-footer>
+
+<ion-modal [keepContentsMounted]="true" #modal trigger="open-custom-dialog">
+  <ng-template>
+    <ion-content>
+      <div class="wrapper">
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="modal.dismiss();"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+            </ion-buttons>
+            <ion-title>اختر المقدمة</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-searchbar aria-describedby="search-text"
+        [(ngModel)]="searchText" (input)="search(searchText)"></ion-searchbar>
+        <ion-list lines="none">
+          <ion-item *ngFor="let item of allCountries | filter:searchText" button="true" detail="false" (click)="makeItSelected(item.number);modal.dismiss();">
+            <ion-img [src]="item.flag" style="width: 24px; height: 24px; margin-left: 10px;"></ion-img>
+            <ion-label>{{item.number}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-content>
+
+  </ng-template>
+</ion-modal>

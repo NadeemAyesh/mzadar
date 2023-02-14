@@ -1,0 +1,87 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary" style="padding-inline-start: 5px !important; padding-inline-end: 16px !important;">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">البحث</ion-title>
+    <ion-buttons slot="end">
+      <!-- <access launch-external="yes" origin="whatsapp://*" /> -->
+      <ion-button href="whatsapp://send?phone={{ appMobile }}" target="_blank" shape="round" class="ion-no-padding wh-link" fill="solid" style="width: 36px; height: 36px; margin-inline-end: 10px;"><ion-icon slot="icon-only" name="logo-whatsapp"></ion-icon></ion-button>
+
+      <ion-avatar style="width: 36px; height: 36px;" [routerLink]="'/auth/profile'" *ngIf="user && user.type === 'user'">
+        <img alt="Silhouette of a person's head" *ngIf="userImage" [src]="userImage" />
+        <img alt="Silhouette of a person's head" *ngIf="!userImage" src="assets/4264622.png" />
+      </ion-avatar>
+      <ion-avatar style="width: 36px; height: 36px;" (click)="goToLogin()" *ngIf="user && user.type === 'visitor'">
+        <img alt="Silhouette of a person's head" *ngIf="userImage" [src]="userImage" />
+        <img alt="Silhouette of a person's head" *ngIf="!userImage" src="assets/4264622.png" />
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+
+
+    <ion-toolbar color="primary" style="padding-top: 0; margin-bottom: 10px;">
+      <ion-searchbar class="ion-padding-start ion-padding-end" id="searchBar" (keyup.enter)="search()" name="name" [(ngModel)]="searchObj.search" placeholder="ابحث عن ما تريد"></ion-searchbar>
+    </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-segment (ionChange)="segmentChanged($event)" [scrollable]="true" value="auction" class="main-segment">
+    <ion-segment-button [value]="'auction'">
+      المزادات
+    </ion-segment-button>
+    <ion-segment-button [value]="'fish'">
+      العروض
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- 1 -->
+  <div class="loader loader--style1 ion-text-center" title="0" *ngIf="loading">
+    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+    <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+      s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+      c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
+    <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+      C22.32,8.481,24.301,9.057,26.013,10.047z">
+      <animateTransform attributeType="xml"
+        attributeName="transform"
+        type="rotate"
+        from="0 20 20"
+        to="360 20 20"
+        dur="0.5s"
+        repeatCount="indefinite"/>
+      </path>
+    </svg>
+  </div>
+
+  <div *ngIf="hasItems" class="ion-padding-top ion-text-center">
+    <br>
+    <ion-img src="assets/no-product.svg"></ion-img>
+    <h6>لا يوجد عناصر لعرضها، يمكنك البحث عن ما تريد، من الأعلى.</h6>
+  </div>
+
+  <div *ngIf="segment === 'auction'">
+    <ion-grid style="padding-left: 0; padding-right: 0;">
+      <ion-row>
+        <ion-col *ngFor="let item of searchArr" size="6">
+          <app-item [item]="item"></app-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngIf="segment === 'fish'">
+    <ion-grid style="padding-left: 0; padding-right: 0;">
+      <ion-row>
+        <ion-col *ngFor="let item of fishes" size="6">
+          <app-fish-item [item]="item"></app-fish-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>

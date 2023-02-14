@@ -1,0 +1,7 @@
+{
+  "name": "mazadat",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

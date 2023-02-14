@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar style="box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.25);">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">مزاداتي</ion-title>
+    <ion-buttons slot="end">
+      <div style="width: 48px"></div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid style="padding-left: 0; padding-right: 0;">
+    <ion-row>
+      <ion-col size="6" *ngFor="let item of auctions">
+        <app-item [item]="item"></app-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

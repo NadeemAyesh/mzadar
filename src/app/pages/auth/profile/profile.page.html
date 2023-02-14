@@ -1,0 +1,137 @@
+<ion-header>
+  <ion-toolbar style="box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.25);">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">الملف الشخصي</ion-title>
+    <ion-buttons slot="end">
+      <div style="width: 48px"></div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="auth-wrapper ion-padding" style="margin-top: 14px;">
+
+    <form class="auth-form" (submit)="submitProfile()">
+      <div class="upload-div">
+        <input type="file" [hidden]="" #userImage (change)="selectimage(userImage)" />
+        <div class="d-flex" style="align-items: center;">
+          <figure style="flex-shrink: 0;">
+            <img [src]="this.userLocal.image" alt="" />
+          </figure>
+          <div class="flex-grow-1" style="margin-right: 20px;">
+            {{  this.userLocal.username }}
+          </div>
+          <div style="flex-shrink: 0;">
+            <ion-icon name="add-circle-outline" color="medium" class="icon-plus"></ion-icon>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 15px;">
+        <div class="upload-div" *ngFor="let file of this.userImages; let i = index">
+          <div class="d-flex" style="align-items: center;">
+            <!-- <figure style="flex-shrink: 0;">
+              <img [src]="file.name" alt="" />
+            </figure>style="margin-right: 20px;" -->
+            <div class="flex-grow-1" style="text-overflow: ellipsis; overflow: hidden;">
+              {{ file.name }}
+            </div>
+          </div>
+          <div class="del-btn">
+            <ion-button slot="end" fill="clear" color="danger" (click)="deleteImage()">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
+
+      </div>
+<!--
+      <ion-list>
+        <ion-item *ngFor="let file of images; let i = index">
+          <ion-thumbnail slot="start">
+            <ion-img [src]="file.data"></ion-img>
+          </ion-thumbnail>
+          <ion-label class="ion-text-wrap"> {{ file.name }} </ion-label>
+          <ion-button slot="end" fill="clear">
+            <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+          </ion-button>
+          <ion-button slot="end" fill="clear" (click)="deleteImage(file)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list> -->
+
+      <div class="mb-15" style="margin-bottom: 15px;">
+        <ion-label class="d-block ion-margin-bottom-me">
+          الاسم
+        </ion-label>
+        <ion-input type="text" name="username" [(ngModel)]="user.username" placeholder="ادخل الاسم"></ion-input>
+      </div>
+
+      <div class="mb-15 position-relative" style="margin-bottom: 15px;">
+        <ion-label class="d-block ion-margin-bottom-me">
+          كلمة المرور
+        </ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="user.password" placeholder="ادخل كلمة المرور"></ion-input>
+        <a class="type-toggle" (click)="toggleShow()">
+          <ion-icon class="show-option" [hidden]="!showPassword" name="eye-off-outline"></ion-icon>
+          <ion-icon class="hide-option" [hidden]="showPassword" name="eye-outline"></ion-icon>
+       </a>
+      </div>
+
+      <div class="mb-15" style="margin-bottom: 15px;">
+        <ion-label class="d-block ion-margin-bottom-me">
+          المدينة
+        </ion-label>
+        <ion-select placeholder="ادخل اسم مدينتك" name="city_id" [(ngModel)]="user.city_id" okText="تم" cancelText="إلغاء">
+          <ion-select-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</ion-select-option>
+        </ion-select>
+      </div>
+      <div class="position-relative" style="margin-bottom: 33px;">
+        <ion-label for="tel">رقم الجوال</ion-label>
+        <input id="tel" type="tel" name="" placeholder="ادخل رقم الجوال" class="form-control tel-input"
+          (keypress)="numberOnly($event)" name="mobile" [(ngModel)]="user.mobile" />
+        <!-- <div class="position-absolute select">
+          <ion-button id="open-custom-dialog1" class="ion-no-padding" fill="clear" color="dark" style="height: auto;">{{
+            selectedNumber }}</ion-button>
+        </div> -->
+        <div class="position-absolute select">
+          <a href="javascript: void(0);" id="open-custom-dialog1" class="ion-no-margin" fill="clear" color="dark" style="height: auto; text-decoration: none;">{{ selectedNumber }}</a>
+        </div>
+      </div>
+      <ion-button color="primary" expand="block" style="--border-radius: 4px;" type="submit" class="height-btn ion-no-border">حفظ</ion-button>
+    </form>
+
+  </div>
+</ion-content>
+
+<ion-modal [keepContentsMounted]="true" #modal2 trigger="open-custom-dialog1">
+  <ng-template>
+    <ion-content>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="modal2.dismiss();"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+          </ion-buttons>
+          <ion-title>اختر المقدمة</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <div class="wrapper">
+
+        <ion-searchbar aria-describedby="search-text" [(ngModel)]="searchText"
+          (input)="search(searchText)"></ion-searchbar>
+        <ion-list lines="none">
+          <ion-item *ngFor="let item of allCountries | filter:searchText" button="true" detail="false"
+            (click)="makeItSelected(item.number); modal2.dismiss();">
+            <ion-img [src]="item.flag" style="width: 24px; height: 24px; margin-left: 10px;"></ion-img>
+            <ion-label>{{item.number}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-content>
+
+  </ng-template>
+</ion-modal>

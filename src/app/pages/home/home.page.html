@@ -1,0 +1,77 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary" style="padding-inline-start: 5px !important; padding-inline-end: 16px !important;">
+    <ion-buttons slot="start">
+      <ion-menu-button class="ion-no-padding"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">الرئيسية</ion-title>
+    <ion-buttons slot="end">
+      <!-- <access launch-external="yes" origin="whatsapp://*" /> -->
+      <!--      margin-inline-end: 10px;-->
+      <ion-button href="whatsapp://send?phone={{ appMobile }}" target="_blank" shape="round" class="ion-no-padding wh-link" fill="solid" style="width: 36px; height: 36px; margin-inline-end: 10px;" ><ion-icon slot="icon-only" name="logo-whatsapp"></ion-icon></ion-button>
+
+      <ion-avatar style="width: 36px; height: 36px;" [routerLink]="'/auth/profile'" *ngIf="user && user.type === 'user'">
+        <img *ngIf="this.user.image" [src]="this.user.image" />
+        <img *ngIf="!this.user.image" src="assets/4264622.png" />
+      </ion-avatar>
+      <ion-avatar style="width: 36px; height: 36px;" (click)="goToLogin()" *ngIf="user && user.type === 'visitor'">
+        <img src="assets/4264622.png" />
+      </ion-avatar>
+
+    </ion-buttons>
+  </ion-toolbar>
+
+  <div class="position-relative search-box" [routerLink]="'../search'">
+    <ion-toolbar color="primary" style="padding-top: 0; margin-bottom: 10px;">
+      <ion-searchbar class="ion-padding-start ion-padding-end" id="searchBar" name="name" [(ngModel)]="searchObj.name" placeholder="ابحث عن ما تريد"></ion-searchbar>
+    </ion-toolbar>
+  </div>
+
+</ion-header>
+<!--
+<div class="elips-1"></div>
+<div class="elips-2"></div> -->
+
+<ion-content class="ion-padding">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-segment (ionChange)="segmentChanged($event)" [scrollable]="true" [value]="'home'" class="main-segment" style=" margin-bottom: 10px;">
+    <ion-segment-button value="home" [hidden]="!ShowLink">
+      المزادات
+    </ion-segment-button>
+    <ion-segment-button *ngFor="let cat of categories" [value]="cat.active+cat.id">
+      {{ cat.name }}
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="hasItems" class="ion-padding-top ion-text-center">
+    <ion-img src="assets/no-items.svg"></ion-img>
+    <h6>لا يوجد عناصر لعرضها، يمكنك البحث عن ما تريد، من الأعلى.</h6>
+  </div>
+
+  <div *ngIf="segment === 'home'" [hidden]="!ShowLink">
+    <ion-grid style="padding-left: 0; padding-right: 0;">
+      <ion-row>
+        <ion-col *ngFor="let item of auctions" size="6">
+          <app-item [item]="item"></app-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngFor="let cat of categories">
+    <div  *ngIf="segment === cat.active+cat.id">
+      <ion-grid style="padding-left: 0; padding-right: 0;">
+        <ion-row>
+          <ion-col *ngFor="let item of fishes" size="6" [hidden]="item.category_id !== cat.id">
+            <app-fish-item [item]="item" *ngIf="item.category_id === cat.id"></app-fish-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+  </div>
+
+</ion-content>

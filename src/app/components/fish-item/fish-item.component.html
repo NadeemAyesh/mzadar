@@ -1,0 +1,17 @@
+<article *ngIf="item" class="product" [routerLink]="'/single-fish/'+item.id" style="margin-bottom: 5px;">
+  <figure>
+    <img [src]="item.image" />
+  </figure>
+  <!-- <span class="category">الاسماك</span> -->
+  <div class="product-title d-flex">
+    <h2>{{ item.name }}</h2>
+    <span>
+      <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.32031 12L3.53125 0.625H4.65625L2.4375 12H1.32031ZM4.5 12L6.71875 0.625H7.83594L5.61719 12H4.5ZM8.78906 4.96094H0.664062V3.875H8.78906V4.96094ZM8.20312 8.79688H0.0703125V7.71875H8.20312V8.79688Z" fill="#477CBA"/>
+        </svg> {{ item.quantity }}</span>
+  </div>
+  <p class="price"><strong>{{ item.price }} ر.س</strong>  <span>{{ item.old_price }} ر.س</span></p>
+  <!-- <div class="current-price" style="margin-top: 5px;">
+    <p> السعر قبل الخصم<small>{{ item.old_price }} ر.س</small></p>
+  </div> -->
+</article>
