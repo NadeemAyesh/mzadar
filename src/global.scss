@@ -227,6 +227,30 @@ ion-select::part(icon) {
   --border-radius: 8px;
   padding-right: 16px;
   padding-left: 16px;
+  --background: #FFF;
+
+  .sc-ion-searchbar-ios .searchbar-input {
+    background: white !important;
+        --background: white !important;
+        background-color: white !important;
+        height: 42px;
+  }
+
+  ion-toolbar.ion-color.sc-ion-searchbar-ios-h .searchbar-search-icon.sc-ion-searchbar-ios, ion-toolbar.ion-color .sc-ion-searchbar-ios-h .searchbar-search-icon.sc-ion-searchbar-ios {
+    opacity: 1;
+
+  }
+
+  .sc-ion-searchbar-ios ion-icon {
+    color: #8E8E93;
+    opacity: 1;
+    height: 42px;
+  }
+}
+
+.sc-ion-searchbar-ios-h {
+  padding-right: 8px !important;
+  margin-top: 15px;
 }
 
 .user-avatar {
@@ -635,5 +659,15 @@ ion-toolbar {
     line-height: 27px;
     color: #000000;
 
+  }
+}
+
+ion-segment.ios {
+  height: 42px;
+  display: flex;
+  ion-segment-button {
+    flex-shrink: 0;
+    flex: 0 0 auto;
+    height: 42px;
   }
 }
